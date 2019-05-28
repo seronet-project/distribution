@@ -1,0 +1,30 @@
+#config.yaml.template
+version: 0.1
+storage:
+  s3:
+    accesskey: dockerregistry
+    secretkey: :AWSSECRETKEY
+    region: us-west-1
+    regionendpoint: https://storage.sero.network
+    bucket: dockerregistry
+    secure: true
+    v4auth: true
+    chunksize: 5242880
+    multipartcopychunksize: 33554432
+    multipartcopymaxconcurrency: 100
+    multipartcopythresholdsize: 33554432
+#    rootdirectory: /dockerregistry
+http:
+  addr: :PORT
+auth:
+  token:
+    realm: https://sso.sero.network/auth/realms/RobotOne/protocol/docker-v2/auth
+    service: registry
+    issuer: https://sso.sero.network/auth/realms/RobotOne
+    rootcertbundle: /etc/ssl/certs
+  htpasswd:
+    realm: basic-realm
+    path: /path/to/htpasswd
+http:
+  http2:
+    disabled: true
