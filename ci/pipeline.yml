@@ -1,0 +1,62 @@
+resource_types:
+- name: slack-notification
+  type: docker-image
+  source:
+    repository: cfcommunity/slack-notification-resource
+
+resources:
+- name: distribution
+  type: git
+  icon: github-face
+  source:
+    uri: git@github.com:seronet-project/distribution.git
+    branch: master
+    depth: 5
+    disable_ci_skip: false
+    private_key: {{github-private-key}}
+- name: registry-testing-deployment
+  type: cf
+  icon: cloud-upload
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-org}}
+    space: {{cf-space}}
+    skip_cert_check: false
+- name: notify
+  type: slack-notification
+  icon: chat-alert
+  source:
+    url: {{slack-webhook}}
+
+jobs:
+- name: deploy-registry
+  public: false
+  serial: true
+  plan:
+  - get: distribution
+    trigger: true
+  - task: list-repo-content
+    config:
+      platform: linux
+      inputs:
+      - name: distribution
+      image_resource:
+        type: docker-image
+        source: { repository: cloudfoundry/cflinuxfs3 }
+      run:
+        path: sh
+        args:
+        - -exc
+        - |
+          ls ./svp-frontend
+  - put: registry-testing-deployment
+    params:
+      manifest: ci/manifest.yml
+#      current_app_name: resources
+      path: svp-frontend
+    on_success:
+      put: notify
+      params:
+        text: "Docker registry deployed to Testing."   
