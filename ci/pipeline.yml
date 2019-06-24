@@ -54,6 +54,7 @@ jobs:
         args:
         - -exc
         - |
+          cd distribution
           ./ci/build.sh
   - put: registry-deployment
     params:
