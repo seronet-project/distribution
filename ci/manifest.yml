@@ -8,5 +8,3 @@ applications:
     - binary_buildpack
   health-check-type: port
   command: ./start.sh
-  env:
-    ASPNETCORE_ENVIRONMENT: production

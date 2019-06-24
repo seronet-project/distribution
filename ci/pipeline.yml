@@ -3,6 +3,7 @@ resource_types:
   type: docker-image
   source:
     repository: cfcommunity/slack-notification-resource
+    tag: v1.4.2
 
 resources:
 - name: distribution
@@ -14,7 +15,7 @@ resources:
     depth: 5
     disable_ci_skip: false
     private_key: {{github-private-key}}
-- name: registry-testing-deployment
+- name: registry-deployment
   type: cf
   icon: cloud-upload
   source:
@@ -37,26 +38,31 @@ jobs:
   plan:
   - get: distribution
     trigger: true
-  - task: list-repo-content
+  - task: build-registry
     config:
       platform: linux
       inputs:
       - name: distribution
+      outputs:
+      - name: distribution-output
       image_resource:
         type: docker-image
-        source: { repository: cloudfoundry/cflinuxfs3 }
+        source:
+          repository: cloudfoundry/cflinuxfs3
       run:
-        path: sh
+        path: bash
         args:
         - -exc
         - |
-          ls ./svp-frontend
-  - put: registry-testing-deployment
+          ./ci/build.sh
+  - put: registry-deployment
     params:
-      manifest: ci/manifest.yml
+      manifest: manifest.yml
 #      current_app_name: resources
-      path: svp-frontend
+      path: distribution-output
+#      environment_variables:
+#        KEY: VALUE
     on_success:
       put: notify
       params:
-        text: "Docker registry deployed to Testing."   
+        text: Docker registry deployed to {{cf-space}} in {{cf-org}}.   
