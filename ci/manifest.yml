@@ -1,0 +1,12 @@
+---
+applications:
+- name: registry
+  random-route: false
+#  health-check-http-endpoint: / 
+#  health-check-type: http
+  buildpacks:
+    - binary_buildpack
+  health-check-type: port
+  command: ./start.sh
+  env:
+    ASPNETCORE_ENVIRONMENT: production

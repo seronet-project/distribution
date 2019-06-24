@@ -1,0 +1,27 @@
+#config.yaml.template
+version: 0.1
+storage:
+  cache:
+    blobdescriptor: inmemory
+  s3:
+    accesskey: AWSACCESSKEY
+    secretkey: AWSSECRETKEY
+    region: us-west-1
+    regionendpoint: AWSENDPOINT
+    bucket: AWSBUCKETNAME
+    encrypt: false
+#    keyid: mykeyid
+    secure: true
+    v4auth: true
+    chunksize: 5242880
+    multipartcopychunksize: 33554432
+    multipartcopymaxconcurrency: 100
+    multipartcopythresholdsize: 33554432
+#    rootdirectory: /s3/object/name/prefix
+http:
+    addr: :PORT
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
