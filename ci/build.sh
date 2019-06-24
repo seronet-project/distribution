@@ -1,7 +1,9 @@
 #! /bin/bash
 pwd
-ln -s . /app/src/github.com/docker/distribution
-ln -s ../distribution-output /app/src/github.com/docker/distribution-output
+mkdir -p /app/src/github.com/docker
+ln -s $(pwd) /app/src/github.com/docker/distribution
+ln -s $(pwd)../distribution-output /app/src/github.com/docker/distribution-output
+ll /app/src/github.com/docker
 cd ~
 wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz
 tar -zxf go1.12.5.linux-amd64.tar.gz
