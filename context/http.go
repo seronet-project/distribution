@@ -21,7 +21,8 @@ var (
 )
 
 func parseIP(ipStr string) net.IP {
-	ip := net.ParseIP(ipStr)
+	host, _, _ := net.SplitHostPort(ipStr)
+	ip := net.ParseIP(host)
 	if ip == nil {
 		log.Warnf("invalid remote IP address: %q", ipStr)
 	}
