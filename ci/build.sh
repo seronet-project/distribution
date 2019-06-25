@@ -1,13 +1,13 @@
 #! /bin/bash
+export OUTPUTDIR=$(realpath ../distribution-output)
+export GOPATH=/app
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 mkdir -p /app/src/github.com/docker
 ln -s $(pwd) /app/src/github.com/docker/distribution
 cd ~
 wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz
 tar -zxf go1.12.5.linux-amd64.tar.gz
 mv go /usr/local
-export OUTPUTDIR=$(realpath ../distribution-output)
-export GOPATH=/app
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 cd /app/src/github.com/docker/distribution/
 make
 ./bin/registry -v
