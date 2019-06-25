@@ -3,6 +3,8 @@ version: 0.1
 log:
   fields:
     service: registry
+delete:
+  enabled: true
 storage:
   cache:
     blobdescriptor: inmemory
