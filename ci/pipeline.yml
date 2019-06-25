@@ -58,7 +58,7 @@ jobs:
           ./ci/build.sh
   - put: registry-deployment
     params:
-      manifest: manifest.yml
+      manifest: distribution-output/manifest.yml
 #      current_app_name: resources
       path: distribution-output
 #      environment_variables:
