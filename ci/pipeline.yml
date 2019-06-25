@@ -4,6 +4,11 @@ resource_types:
   source:
     repository: cfcommunity/slack-notification-resource
     tag: v1.4.2
+- name: cf-cli-resource
+  type: docker-image
+  source:
+    repository: nulldriver/cf-cli-resource
+    tag: latest
 
 resources:
 - name: distribution
@@ -30,11 +35,39 @@ resources:
   icon: chat-alert
   source:
     url: {{slack-webhook}}
+- name: cf-gc-task
+  type: cf-cli-resource
+  source:
+    org: {{cf-org}}
+    space: {{cf-space}}
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    skip_cert_check: false
+- name: gc-timer
+  type: time
+  source:
+    interval: 24h
 
 jobs:
+- name: gc-registry
+  public: false
+  serial_groups: ["registry"]
+  plan:
+  - get: gc-timer
+    trigger: true
+  - put: cf-gc-task
+    resource: cf-gc-task
+    params:
+      command: run-task
+      app_name: registry
+      task_command: ./gc.sh
+      task_name: garbage-collect
+      memory: 128M
+      disk_quota: 128M
 - name: deploy-registry
   public: false
-  serial: true
+  serial_groups: ["registry"]
   plan:
   - get: distribution
     trigger: true
