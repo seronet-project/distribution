@@ -1,5 +1,8 @@
 #config.yaml.template
 version: 0.1
+log:
+  fields:
+    service: registry
 storage:
   cache:
     blobdescriptor: inmemory
@@ -19,7 +22,21 @@ storage:
     multipartcopythresholdsize: 33554432
 #    rootdirectory: /s3/object/name/prefix
 http:
-    addr: :PORT
+  addr: :PORT
+  headers:
+    X-Content-Type-Options: [nosniff]
+#auth:
+#  htpasswd:
+#    realm: basic-realm
+#    path:
+notifications:
+  endpoints:
+    - name: rocketchat
+      url: WEBHOOK
+      timeout: 500ms
+      threshold: 3
+      backoff: 20s
+      disabled: false
 health:
   storagedriver:
     enabled: true

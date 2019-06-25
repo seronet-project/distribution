@@ -1,6 +1,7 @@
 ---
 applications:
 - name: registry
+  memory: 256M
   random-route: false
 #  health-check-http-endpoint: / 
 #  health-check-type: http
