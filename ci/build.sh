@@ -20,6 +20,8 @@ cp ./bin/digest $OUTPUTDIR
 cp ./bin/registry-api-descriptor-template $OUTPUTDIR
 cp ./ci/manifest.yml $OUTPUTDIR
 cp ./ci/start.sh $OUTPUTDIR
+cp ./ci/mkconf.sh $OUTPUTDIR
+cp ./ci/gc.sh $OUTPUTDIR
 cp ./ci/config.yml.template $OUTPUTDIR
 cp cert.pem $OUTPUTDIR
 
