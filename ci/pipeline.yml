@@ -20,6 +20,13 @@ resources:
     depth: 5
     disable_ci_skip: false
     private_key: {{github-private-key}}
+- name: distribution-docker
+  type: git
+  icon: github-face
+  source:
+    uri: https://github.com/docker/distribution.git
+    branch: master
+    depth: 30
 - name: registry-deployment
   type: cf
   icon: cloud-upload
@@ -44,12 +51,55 @@ resources:
     username: {{cf-username}}
     password: {{cf-password}}
     skip_cert_check: false
+- name: merge-timer
+  type: time
+  source:
+    start: 1:00 AM
+    end: 11:30 AM
+    location: Europe/Berlin
 - name: gc-timer
   type: time
   source:
-    interval: 24h
+#   interval: 24h
+    start: 3:00 AM
+    stop: 4:00 AM
+    location: Europe/Berlin
 
 jobs:
+- name: merge-registry
+  public: false
+  serial_groups: ["registry"]
+  plan:
+  - get: merge-timer
+    trigger: true
+  - get: distribution-docker
+#    trigger: true
+  - get: distribution
+  - task: merge-distribution-docker
+    config:
+      platform: linux
+      inputs:
+      - name: distribution
+      outputs:
+      - name: distribution
+      image_resource:
+        type: docker-image
+        source:
+          repository: cloudfoundry/cflinuxfs3
+      run:
+        path: bash
+        args:
+        - -exc
+        - |
+          cd distribution
+          git config user.email "concourse@sero.network"
+          git config user.name "SeRoNet Concourse"
+          git remote add docker https://github.com/docker/distribution.git
+          git fetch docker master
+          git merge --no-edit docker/master
+  - put: distribution
+    params:
+      repository: distribution  
 - name: gc-registry
   public: false
   serial_groups: ["registry"]
