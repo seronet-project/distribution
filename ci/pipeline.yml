@@ -55,7 +55,7 @@ resources:
   type: time
   source:
     start: 1:00 AM
-    end: 2:00 AM
+    stop: 2:00 AM
     location: Europe/Berlin
 - name: gc-timer
   type: time
