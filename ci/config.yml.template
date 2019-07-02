@@ -27,7 +27,12 @@ http:
   addr: :PORT
   headers:
     X-Content-Type-Options: [nosniff]
-#auth:
+auth:
+  token:
+    realm: https://sso.sero.network/auth/realms/RobotOne/protocol/docker-v2/auth
+    service: registry
+    issuer: https://sso.sero.network/auth/realms/RobotOne
+    rootcertbundle: cert.pem
 #  htpasswd:
 #    realm: basic-realm
 #    path:
