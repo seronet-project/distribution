@@ -9,7 +9,7 @@ sed -e "s/PORT/${PORT:-8080}/" \
 -e "s,AWSENDPOINT,$AWS_ENDPOINT," \
 -e "s/AWSBUCKETNAME/$AWS_BUCKET/" \
 -e "s,AUTHSERVICE,$AUTH_SERVICE," \
--e "s/AUTHREALM/$AUTH_REALM/" \
+-e "s,AUTHREALM,$AUTH_REALM," \
 -e "s,AUTHISSUER,$AUTH_ISSUER," \
 config.yml.template > config.yml
 
