@@ -153,6 +153,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ((env.awskey))
         REGISTRY_HTTP_SECRET: ((env.httpsecret))
         WEBHOOK: ((env.webhook))
+        AUTH_SERVICE: ((env.authservice))
     on_success:
       put: notify
       params:
