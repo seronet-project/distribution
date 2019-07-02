@@ -42,7 +42,7 @@ resources:
   icon: chat-alert
   source:
     url: ((slack-webhook))
-- name: cf-gc-task
+- name: cf-task
   type: cf-cli-resource
   source:
     org: ((cf.org))
@@ -100,6 +100,7 @@ jobs:
   - put: distribution
     params:
       repository: distribution  
+
 - name: gc-registry
   public: false
   serial_groups: ["registry"]
@@ -107,7 +108,7 @@ jobs:
   - get: gc-timer
     trigger: true
   - put: cf-gc-task
-    resource: cf-gc-task
+    resource: cf-task
     params:
       command: run-task
       app_name: registry
@@ -115,6 +116,7 @@ jobs:
       task_name: garbage-collect
       memory: 128M
       disk_quota: 128M
+
 - name: deploy-registry
   public: false
   serial_groups: ["registry"]
@@ -144,9 +146,14 @@ jobs:
       manifest: distribution-output/manifest.yml
 #      current_app_name: resources
       path: distribution-output
-#      environment_variables:
-#        KEY: VALUE
+      environment_variables:
+        AWS_ACCESS_KEY_ID: ((env.awsid))
+        AWS_BUCKET: ((env.awsbucket))
+        AWS_ENDPOINT: ((env.awsendpoint))
+        AWS_SECRET_ACCESS_KEY: ((env.awskey))
+        REGISTRY_HTTP_SECRET: ((env.httpsecret))
+        WEBHOOK: ((env.webhook))
     on_success:
       put: notify
       params:
-        text: Docker registry deployed to ((cf.space)) in ((cf.org)).   
+        text: Docker registry deployed to ((cf.space)) in ((cf.org)).
