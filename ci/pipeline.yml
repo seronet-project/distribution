@@ -19,7 +19,7 @@ resources:
     branch: master
     depth: 5
     disable_ci_skip: false
-    private_key: {{github-private-key}}
+    private_key: ((github-private-key))
 - name: distribution-docker
   type: git
   icon: github-face
@@ -31,25 +31,25 @@ resources:
   type: cf
   icon: cloud-upload
   source:
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
-    organization: {{cf-org}}
-    space: {{cf-space}}
+    api: ((cf.api))
+    username: ((cf.username))
+    password: ((cf.password))
+    organization: ((cf.org))
+    space: ((cf.space))
     skip_cert_check: false
 - name: notify
   type: slack-notification
   icon: chat-alert
   source:
-    url: {{slack-webhook}}
+    url: ((slack-webhook))
 - name: cf-gc-task
   type: cf-cli-resource
   source:
-    org: {{cf-org}}
-    space: {{cf-space}}
-    api: {{cf-api}}
-    username: {{cf-username}}
-    password: {{cf-password}}
+    org: ((cf.org))
+    space: ((cf.space))
+    api: ((cf.api))
+    username: ((cf.username))
+    password: ((cf.password))
     skip_cert_check: false
 - name: merge-timer
   type: time
@@ -149,4 +149,4 @@ jobs:
     on_success:
       put: notify
       params:
-        text: Docker registry deployed to {{cf-space}} in {{cf-org}}.   
+        text: Docker registry deployed to ((cf.space)) in ((cf.org)).   
