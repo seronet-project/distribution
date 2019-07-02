@@ -154,6 +154,8 @@ jobs:
         REGISTRY_HTTP_SECRET: ((env.httpsecret))
         WEBHOOK: ((env.webhook))
         AUTH_SERVICE: ((env.authservice))
+        AUTH_ISSUER: ((env.authissuer))
+        AUTH_REALM: ((env.authrealm))
     on_success:
       put: notify
       params:

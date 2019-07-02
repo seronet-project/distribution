@@ -29,9 +29,9 @@ http:
     X-Content-Type-Options: [nosniff]
 auth:
   token:
-    realm: https://sso.sero.network/auth/realms/RobotOne/protocol/docker-v2/auth
+    realm: AUTHREALM
     service: AUTHSERVICE
-    issuer: https://sso.sero.network/auth/realms/RobotOne
+    issuer: AUTHISSUER
     rootcertbundle: cert.pem
 #  htpasswd:
 #    realm: basic-realm
