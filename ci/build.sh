@@ -12,7 +12,8 @@ cd /app/src/github.com/docker/distribution/
 make
 ./bin/registry -v
 
-wget -O certs.json https://sso.sero.network/auth/realms/RobotOne/protocol/openid-connect/certs
+# wget -O certs.json https://sso.sero.network/auth/realms/RobotOne/protocol/openid-connect/certs
+wget -O certs.json https://dockerlogin.sero.network/auth/realms/master/protocol/openid-connect/certs
 cat <(echo "-----BEGIN CERTIFICATE-----") <(jq -r '.keys[0].x5c[0]' certs.json) <(echo "-----END CERTIFICATE-----") > cert.pem
 
 cp ./bin/registry $OUTPUTDIR

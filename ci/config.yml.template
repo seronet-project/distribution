@@ -27,15 +27,15 @@ http:
   addr: :PORT
   headers:
     X-Content-Type-Options: [nosniff]
-#auth:
-#  token:
-#    realm: AUTHREALM
-#    service: AUTHSERVICE
-#    issuer: AUTHISSUER
-#    rootcertbundle: cert.pem
-#  htpasswd:
-#    realm: basic-realm
-#    path:
+auth:
+  token:
+    realm: AUTHREALM
+    service: AUTHSERVICE
+    issuer: AUTHISSUER
+    rootcertbundle: cert.pem
+  htpasswd:
+    realm: basic-realm
+    path:
 notifications:
   endpoints:
     - name: rocketchat
