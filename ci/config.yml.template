@@ -33,9 +33,9 @@ auth:
     service: AUTHSERVICE
     issuer: AUTHISSUER
     rootcertbundle: cert.pem
-  htpasswd:
-    realm: basic-realm
-    path:
+#  htpasswd:
+#    realm: basic-realm
+#    path:
 notifications:
   endpoints:
     - name: rocketchat
